@@ -1,22 +1,21 @@
-from prometheus_client import start_http_server, Gauge
-from proxmoxer import ProxmoxAPI
-import time
+NODE_IP=192.168.179.128
+VM_LIST=100
+VM_IPS=100:192.168.179.131
 
-PROXMOX_HOST = '192.168.179.130:8006'   # <--- IP của node hiện tại
-USER = 'root'
-PASSWORD = 'vi0344708758'
+BACKUP_TYPE=vm
 
-proxmox = ProxmoxAPI(PROXMOX_HOST, user=USER, password=PASSWORD, verify_ssl=False)
+TELEGRAM_BOT_TOKEN=7556324809:AAF2TWWD8ep1xUYz-daLTq9kTAfbrjp-b_I
 
-node_up = Gauge('proxmox_node_up', 'Node status', ['node'])
+TELEGRAM_CHAT_ID=7420481293
 
-def update_metrics():
-    for node in proxmox.nodes.get():
-        status = 1 if node['status'] == 'online' else 0
-        node_up.labels(node=node['node']).set(status)
+PUSHGATEWAY_URL=http://192.168.179.128:9091
+RSYNC_TARGETS=192.168.179.130
 
-if __name__ == "__main__":
-    start_http_server(9110)
-    while True:
-        update_metrics()
-        time.sleep(10)
+DB_USER=root
+DB_PASS=TlaGQ2ogEI
+DB_NAME=virtualizor
+MYSQLDUMP_BIN=/usr/local/emps/bin/mysqldump
+MYSQL_SOCKET=/usr/local/emps/var/mysql/mysql.sock
+
+DB_BACKUP_DIR=/var/backups/db
+VM_BACKUP_DIR=/var/backups/vm
